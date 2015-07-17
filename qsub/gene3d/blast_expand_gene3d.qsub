@@ -1,0 +1,13 @@
+#! /bin/sh
+#PBS -j oe
+#PBS -l nodes=300:ppn=32:xe
+#PBS -l walltime=24:00:00
+#PBS -q normal
+#PBS -N gene3d_blast_expand
+source /opt/modules/default/init/bash
+cd $PBS_O_WORKDIR
+
+aprun -n 600 -N 2 -d 15   \
+	      /mnt/a/u/sciteam/sadkhin/efi_precompute_bw_7/scheduler.x \
+	      /mnt/a/u/sciteam/sadkhin/efi_precompute_bw_7/lists/gene3d/list.scheduler \
+	      /u/sciteam/sadkhin/efi_precompute_bw_7/5-demultiplex_blast.pl  > blast_reduce.log 

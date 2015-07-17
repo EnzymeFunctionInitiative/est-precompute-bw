@@ -1,0 +1,23 @@
+#! /bin/sh
+#PBS -j oe
+#PBS -l nodes=10:ppn=32:xe
+#PBS -l walltime=24:00:00
+#PBS -q normal
+#PBS -N alphabetize_pfam_huge
+#PBS -m ae
+#PBS -M youremail@illinois.edu
+
+source /opt/modules/default/init/bash
+module load /mnt/a/u/sciteam/sadkhin/modules/est-precompute/52
+cd $PBS_O_WORKDIR
+dir="$EST_PRECOMPUTE_SCRIPTS/"
+script="5-alphabetize_huge_split.pl"
+config="$dir/lists/pfam/list.scheduler"
+config="$dir/lists/pfam/list.scheduler.huge"
+log="logs/$script.log"
+call="$SCHEDULER_X $config $dir/large_families/$script"
+echo "running $script on $config ($call)"
+
+echo $call;
+
+aprun -n 10 -N 1 -d 32 $call > $log

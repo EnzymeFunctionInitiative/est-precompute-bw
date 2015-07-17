@@ -1,0 +1,14 @@
+#! /bin/sh
+#PBS -j oe
+#PBS -l nodes=50:ppn=32:xe
+#PBS -l walltime=24:00:00
+#PBS -q normal
+#PBS -N split_fasta
+time=date +%T
+source /opt/modules/default/init/bash
+cd $PBS_O_WORKDIR
+
+aprun -n 1600 -N 32 -d 1   \
+	      /mnt/a/u/sciteam/sadkhin/efi_precompute_bw_7/scheduler.x \
+	      /mnt/a/u/sciteam/sadkhin/efi_precompute_bw_7/lists/pfam/list.scheduler \
+	      /u/sciteam/sadkhin/efi_precompute_bw_7/2-split_fasta.pl  >  logs/split_fasta-$time 

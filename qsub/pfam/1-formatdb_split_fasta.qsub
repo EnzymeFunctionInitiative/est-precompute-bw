@@ -1,0 +1,23 @@
+#! /bin/sh
+#PBS -j oe
+#PBS -l nodes=100:ppn=32:xe
+#PBS -l walltime=18:00:00
+#PBS -q normal
+#PBS -N formatdb_split
+#PBS -m ae
+#PBS -M youremail@illinois.edu
+
+source /opt/modules/default/init/bash
+module load /mnt/a/u/sciteam/sadkhin/modules/est-precompute/52
+
+cd $PBS_O_WORKDIR
+script="2-formatdb_and_split_fasta.pl"
+config="$EST_PRECOMPUTE_SCRIPTS/lists/pfam/list.scheduler"
+log="logs/$script.log"
+call="$SCHEDULER_X $config $EST_PRECOMPUTE_SCRIPTS/$script"
+
+echo "running $script on $config"
+echo $call
+
+aprun -n 3200 -N 32 -d 1 $call > $log
+

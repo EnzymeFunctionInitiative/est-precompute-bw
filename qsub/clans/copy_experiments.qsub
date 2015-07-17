@@ -1,0 +1,13 @@
+#! /bin/sh
+#PBS -j oe
+#PBS -l nodes=10:ppn=32:xe
+#PBS -l walltime=24:00:00
+#PBS -q normal
+#PBS -N copy_experiments
+source /opt/modules/default/init/bash
+cd $PBS_O_WORKDIR
+
+aprun -n 310 -N 31 -d 1   \
+	      /mnt/a/u/sciteam/sadkhin/efi_precompute_bw_5/scheduler.x \
+	      /mnt/a/u/sciteam/sadkhin/efi_precompute_bw_5/lists/pfam/list.scheduler \
+	      /u/sciteam/sadkhin/efi_precompute_bw_5/1-copy_experiments.pl   >  logs/copyexperiment_fasta 

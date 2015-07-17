@@ -1,0 +1,20 @@
+#! /bin/sh
+#PBS -j oe
+#PBS -l nodes=50:ppn=32:xe
+#PBS -l walltime=18:00:00
+#PBS -q normal
+#PBS -N formatdb_gene3d
+source /opt/modules/default/init/bash
+module load ~/modules/est-precompute/49
+cd $PBS_O_WORKDIR
+dir=$EST_PRECOMPUTE
+script="3-format_cdhit_db.pl"
+config="$dir/lists/gene3d/list.scheduler"
+log="logs/$script.log"
+
+echo "running $script on $config"
+
+aprun -n 1600 -N 32 -d 1   \
+	      $SCHEDULER_X \
+	      $config\
+	      $script > $log

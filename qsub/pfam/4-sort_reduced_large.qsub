@@ -1,0 +1,20 @@
+#! /bin/sh
+#PBS -j oe
+#PBS -l nodes=50:ppn=32:xe
+#PBS -l walltime=24:00:00
+#PBS -q normal
+#PBS -N sort_reducedLarge_pfam
+#PBS -m ae
+#PBS -M youremail@illinois.edu
+
+source /opt/modules/default/init/bash
+module load /mnt/a/u/sciteam/sadkhin/modules/est-precompute/52
+cd $PBS_O_WORKDIR
+dir=$EST_PRECOMPUTE_SCRIPTS
+script="5-sort_reduced.pl"
+config="$dir/lists/pfam/list.scheduler.ascending"
+log="logs/$script.log"
+call="$SCHEDULER_X $config $dir/$script"
+echo "running $script on $config ($call)"
+
+aprun -n 50 -N 1 -d 32 $call > $log

@@ -1,0 +1,18 @@
+#! /bin/sh
+#PBS -j oe
+#PBS -l nodes=100:ppn=32:xe
+#PBS -l walltime=24:00:00
+#PBS -q normal
+#PBS -m ae
+#PBS -M youremail@illinois.edu
+#PBS -N testCDHIT.log
+source /opt/modules/default/init/bash
+module load /mnt/a/u/sciteam/sadkhin/modules/est-precompute/52
+cd $PBS_O_WORKDIR
+dir=$EST_PRECOMPUTE_SCRIPTS
+script='0-test_representatives.pl'
+
+aprun -n 100 -d31 -cc none \
+ $dir/scheduler.x \
+ $dir/lists/pfam/list.scheduler \
+ $dir/$script  > logs/testCDHIT.log
