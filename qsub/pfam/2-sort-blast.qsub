@@ -18,4 +18,4 @@ log="logs/$script.log"
 call="$SCHEDULER_X $config $dir/$script"
 echo "running $script on $config ($call)"
 
-aprun -n 100 -N 1 -d 31 $call > $log
+aprun -n 400 -N 4 -d 8 $call > $log
